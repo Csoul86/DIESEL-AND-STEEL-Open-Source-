@@ -1,0 +1,10 @@
+local jeep = workspace:FindFirstChild("Jeepnies") and workspace.Jeepnies:FindFirstChild(player.Name)
+        if jeep then
+            local root = jeep.PrimaryPart or jeep:FindFirstChild("PrimaryPart") or jeep:FindFirstChildWhichIsA("BasePart")
+            if root then
+                boosting = true
+                if velocityObj and velocityObj.Parent then velocityObj:Destroy() end
+                velocityObj = Instance.new("BodyVelocity")
+                velocityObj.MaxForce = Vector3.new(1e6,1e6,1e6)
+                velocityObj.Parent = root
+                velocityObj.Velocity = root.CFrame.LookVector * topSpeed

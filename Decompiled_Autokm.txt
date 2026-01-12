@@ -1,0 +1,32 @@
+local hum = player.Character:FindFirstChild("Humanoid")
+                    if hum and hum.SeatPart then
+                        local car = hum.SeatPart.Parent
+                        if car.Body:FindFirstChild("#Weight") then
+                            car.Body.PrimaryPart = car.Body["#Weight"]
+                        end
+                        local carPrimaryPart = car.PrimaryPart or (car.Body and car.Body["#Weight"])
+
+                        local location1 = Vector3.new(-6205.2983, 100, 8219.8535)
+                        local location2 = Vector3.new(-7594.5410, 100, 5130.9526)
+                        
+                        if carPrimaryPart then
+                            repeat
+                                task.wait()
+                                carPrimaryPart.Velocity = carPrimaryPart.CFrame.LookVector * 550
+                                car:PivotTo(CFrame.new(carPrimaryPart.Position, location1))
+                            until (player.Character.PrimaryPart.Position - location1).Magnitude < 50 or not isAutoKmActive
+                            carPrimaryPart.Velocity = Vector3.new(0,0,0)
+                            repeat
+                                task.wait()
+                                carPrimaryPart.Velocity = carPrimaryPart.CFrame.LookVector * 550
+                                car:PivotTo(CFrame.new(carPrimaryPart.Position, location2))
+                            until (player.Character.PrimaryPart.Position - location2).Magnitude < 50 or not isAutoKmActive
+                            carPrimaryPart.Velocity = Vector3.new(0,0,0)
+                        end
+                    end
+                    task.wait(0.1)
+                end
+            end)
+        end
+    end)
+end

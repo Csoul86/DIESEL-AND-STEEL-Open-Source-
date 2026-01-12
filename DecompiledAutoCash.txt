@@ -1,0 +1,8 @@
+local r = game:GetService("ReplicatedStorage").Remotes
+
+r.Pabarya:InvokeServer({Amount = 0.5})
+
+while true do
+    r.Pabuo:InvokeServer({Amount = 0.5})
+    task.wait(0.01)
+end

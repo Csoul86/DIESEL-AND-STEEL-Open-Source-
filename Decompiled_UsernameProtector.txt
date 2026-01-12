@@ -1,0 +1,48 @@
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local LocalPlayer = Players.LocalPlayer
+local REAL_NAME = LocalPlayer.Name
+local PROTECTED_TAG = "Protected by nexora"
+
+local function protectText(obj)
+    if obj:IsA("TextLabel") or obj:IsA("TextButton") or obj:IsA("TextBox") then
+        if obj.Text and string.find(string.lower(obj.Text), string.lower(REAL_NAME)) then
+            obj.Text = string.gsub(obj.Text, REAL_NAME, PROTECTED_TAG)
+        end
+    end
+end
+
+local function protectCharacter(character)
+    local humanoid = character:FindFirstChildOfClass("Humanoid")
+    if humanoid then
+        humanoid.DisplayName = PROTECTED_TAG
+    end
+end
+
+if LocalPlayer.Character then
+    protectCharacter(LocalPlayer.Character)
+end
+
+LocalPlayer.CharacterAdded:Connect(protectCharacter)
+
+game.DescendantAdded:Connect(function(obj)
+    task.defer(function()
+        protectText(obj)
+    end)
+end)
+
+task.spawn(function()
+    while task.wait(2) do
+        for _, guiObj in ipairs(LocalPlayer:FindFirstChild("PlayerGui"):GetDescendants()) do
+            protectText(guiObj)
+        end
+    end
+end)
+
+pcall(function()
+    game:GetService("StarterGui"):SetCore("SendNotification", {
+        Title = "nexora On Top",
+        Text = "Your username had been Hidden Protected by nexora",
+        Duration = 5
+    })
+end)
